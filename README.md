@@ -1,6 +1,6 @@
-# 🌿 Pritha - A Gift
+# 🌿 Pritha
 
-Pritha is a wellness and nutrition platform built for **Yogini Kurtadkar**, designed to provide a calm, nature-inspired digital sanctuary focused on nutrition, emotional wellness, and sustainable lifestyle habits.
+Pritha is a wellness and nutrition platform built for **Yogini Kudtarkar**, designed to provide a calm, nature-inspired digital sanctuary focused on nutrition, emotional wellness, and sustainable lifestyle habits.
 
 The platform combines personalized diet planning, consultation booking, journaling, and an AI wellness companion into a single experience.
 
@@ -241,4 +241,4 @@ Pritha aims to make wellness feel personal, sustainable, and compassionate by bl
 
 ### Developed By
 
-Built with ❤️ for Yogini Kurtadkar's wellness practice.
+Built with ❤️ by Kaustubh for his loving sister - *Yogini*.
