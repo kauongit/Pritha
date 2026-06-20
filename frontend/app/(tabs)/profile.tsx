@@ -47,8 +47,7 @@ export default function Profile() {
           <MenuItem icon="log-out" label="Sign out" onPress={async () => { await signOut(); router.replace("/welcome"); }} testID="profile-signout" danger />
         </View>
 
-        <Text style={styles.footer}>Pritha — Daughter of Earth{"
-"}Made with care.</Text>
+        <Text style={styles.footer}>Pritha — Daughter of Earth Made with care.</Text>
       </ScrollView>
     </SafeAreaView>
   );

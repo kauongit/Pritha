@@ -32,8 +32,7 @@ export default function SignIn() {
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           <Pressable onPress={() => router.back()} style={styles.back}><Feather name="arrow-left" size={22} color={colors.onSurface} /></Pressable>
           <Text style={styles.eyebrow}>— WELCOME BACK</Text>
-          <Text style={styles.h1}>Hello, kindred{"
-"}soul.</Text>
+          <Text style={styles.h1}>Hello, kindred soul.</Text>
           <Text style={styles.sub}>Sign in to return to your sanctuary.</Text>
 
           <View style={styles.field}>

@@ -30,8 +30,7 @@ export default function SignUp() {
         <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
           <Pressable onPress={() => router.back()} style={styles.back}><Feather name="arrow-left" size={22} color={colors.onSurface} /></Pressable>
           <Text style={styles.eyebrow}>— BEGIN</Text>
-          <Text style={styles.h1}>Plant your first{"
-"}seed.</Text>
+          <Text style={styles.h1}>Plant your first seed.</Text>
           <Text style={styles.sub}>Create your account and join Yogini&apos;s sanctuary.</Text>
 
           <View style={styles.field}>

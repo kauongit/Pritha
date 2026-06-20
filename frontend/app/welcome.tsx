@@ -24,8 +24,7 @@ export default function Welcome() {
             <Text style={styles.tagline}>Daughter of Earth</Text>
           </View>
           <View style={styles.bottom}>
-            <Text style={styles.h1}>Your sanctuary for{"
-"}sustainable wellness.</Text>
+            <Text style={styles.h1}>Your sanctuary for sustainable wellness.</Text>
             <Text style={styles.p}>Small, sustainable habits create lifelong wellness. Welcome to Yogini&apos;s mindful nutrition space.</Text>
             <Pressable testID="welcome-get-started" style={styles.primaryBtn} onPress={() => router.push("/onboarding")}>
               <Text style={styles.primaryBtnTxt}>Begin Your Journey</Text>

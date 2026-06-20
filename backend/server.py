@@ -10,7 +10,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import os, uuid, jwt, time, hmac, hashlib, logging, asyncio
 
-from emergentintegrations.llm.chat import LlmChat, UserMessage, TextDelta, StreamDone
+#from emergentintegrations.llm.chat import LlmChat, UserMessage, TextDelta, StreamDone
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -347,42 +347,42 @@ async def admin_payments(_: dict = Depends(require_admin)):
     return await db.payments.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
 
 # ----- AI Wellness Companion -----
-SYSTEM_PRIMER = (
-    "You are Pritha — a gentle, calm AI wellness companion in Yogini Kurtadkar's nutrition sanctuary. "
-    "You speak warmly, briefly, and never push extreme diets or calorie obsession. "
-    "Offer grounded, sustainable, plant-forward suggestions, mindful eating tips, and emotional safety. "
-    "Keep replies concise (2-4 short sentences). Use soft, nature-inspired language. "
-    "For medical concerns, gently suggest booking a 1:1 consult with Yogini (₹750). "
-    "Never diagnose. Never shame. Always non-judgmental."
-)
+# SYSTEM_PRIMER = (
+#     "You are Pritha — a gentle, calm AI wellness companion in Yogini Kurtadkar's nutrition sanctuary. "
+#     "You speak warmly, briefly, and never push extreme diets or calorie obsession. "
+#     "Offer grounded, sustainable, plant-forward suggestions, mindful eating tips, and emotional safety. "
+#     "Keep replies concise (2-4 short sentences). Use soft, nature-inspired language. "
+#     "For medical concerns, gently suggest booking a 1:1 consult with Yogini (₹750). "
+#     "Never diagnose. Never shame. Always non-judgmental."
+# )
 
-@api.post("/ai/chat")
-async def ai_chat(req: ChatReq, user: dict = Depends(get_user)):
-    if not EMERGENT_LLM_KEY:
-        raise HTTPException(500, "AI not configured")
-    sess = f"{user['id']}_{req.session_id}"
-    chat = LlmChat(
-        api_key=EMERGENT_LLM_KEY,
-        session_id=sess,
-        system_message=SYSTEM_PRIMER,
-    ).with_model("anthropic", "claude-sonnet-4-6")
+# @api.post("/ai/chat")
+# async def ai_chat(req: ChatReq, user: dict = Depends(get_user)):
+#     if not EMERGENT_LLM_KEY:
+#         raise HTTPException(500, "AI not configured")
+#     sess = f"{user['id']}_{req.session_id}"
+#     chat = LlmChat(
+#         api_key=EMERGENT_LLM_KEY,
+#         session_id=sess,
+#         system_message=SYSTEM_PRIMER,
+#     ).with_model("anthropic", "claude-sonnet-4-6")
 
-    async def gen():
-        try:
-            async for ev in chat.stream_message(UserMessage(text=req.message)):
-                if isinstance(ev, TextDelta):
-                    yield ev.content
-                elif isinstance(ev, StreamDone):
-                    break
-        except Exception as e:
-            logger.exception("AI error")
-            yield (
-                "\n[Whisper from the sanctuary: "
-                f"I'm resting right now. {str(e)[:80]}]"
-            )
+#     async def gen():
+#         try:
+#             async for ev in chat.stream_message(UserMessage(text=req.message)):
+#                 if isinstance(ev, TextDelta):
+#                     yield ev.content
+#                 elif isinstance(ev, StreamDone):
+#                     break
+#         except Exception as e:
+#             logger.exception("AI error")
+#             yield (
+#                 "\n[Whisper from the sanctuary: "
+#                 f"I'm resting right now. {str(e)[:80]}]"
+#             )
 
-    return StreamingResponse(gen(), media_type="text/plain",
-                             headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
+#     return StreamingResponse(gen(), media_type="text/plain",
+#                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
 # Profile aggregate
 @api.get("/profile/summary")

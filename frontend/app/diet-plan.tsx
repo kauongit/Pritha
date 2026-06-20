@@ -50,8 +50,7 @@ export default function DietPlan() {
         </View>
         <ScrollView contentContainerStyle={{ padding: spacing.xl, paddingBottom: 140 }} keyboardShouldPersistTaps="handled">
           <Text style={styles.eyebrow}>— TELL YOGINI ABOUT YOU</Text>
-          <Text style={styles.h1}>A plan, rooted in{"
-"}your reality.</Text>
+          <Text style={styles.h1}>A plan, rooted in your reality.</Text>
 
           <Pressable testID="diet-student-toggle" style={styles.priceToggle} onPress={() => setIsStudent(!isStudent)}>
             <View style={{ flex: 1 }}>

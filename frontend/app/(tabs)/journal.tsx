@@ -64,8 +64,7 @@ export default function Journal() {
         entries.length === 0 ? (
           <View style={styles.empty}>
             <Feather name="book-open" size={40} color={colors.borderStrong} />
-            <Text style={styles.emptyTxt}>Your journal is empty.{"
-"}Take a deep breath and write your first entry.</Text>
+            <Text style={styles.emptyTxt}>Your journal is empty. Take a deep breath and write your first entry.</Text>
           </View>
         ) : (
           <FlatList

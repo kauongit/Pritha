@@ -1,0 +1,15 @@
+# Python
+backend/.venv/
+backend/__pycache__/
+
+# Environment files
+backend/.env
+
+# Node
+frontend/node_modules/
+
+# Expo
+frontend/.expo/
+
+# Cache
+*.pyc
