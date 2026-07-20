@@ -194,3 +194,199 @@
     "Implement the mood tracker as a tactile row of choices (Great, Good, Okay, Low, Exhausted) on both the Home screen check-in and the Journal New Entry flow."
   ]
 }
+{
+  "app_name": "Pritha",
+  "personality": "8 Hand-Drawn / Journal with 3 Editorial structure",
+  "personality_one_liner": "A calm, grounded, nature-inspired sanctuary where wellness feels sustainable, safe, and deeply personal.",
+  "color": {
+    "surface": "#FBF9F6",
+    "onSurface": "#2D3430",
+    "surfaceSecondary": "#F0EDE6",
+    "onSurfaceSecondary": "#3E4741",
+    "surfaceTertiary": "#E8E5DF",
+    "onSurfaceTertiary": "#4A544E",
+    "surfaceInverse": "#2D3430",
+    "onSurfaceInverse": "#FBF9F6",
+    "brand": "#7B8C73",
+    "brandPrimary": "#5C6A54",
+    "onBrandPrimary": "#FFFFFF",
+    "brandSecondary": "#B58472",
+    "onBrandSecondary": "#FFFFFF",
+    "brandTertiary": "#D5DEC9",
+    "onBrandTertiary": "#2D3430",
+    "success": "#688B58",
+    "onSuccess": "#FFFFFF",
+    "warning": "#D4A373",
+    "onWarning": "#FFFFFF",
+    "error": "#A45A52",
+    "onError": "#FFFFFF",
+    "info": "#758A94",
+    "onInfo": "#FFFFFF",
+    "border": "#E0DDD5",
+    "borderStrong": "#C2BCAE",
+    "divider": "#E8E5DF"
+  },
+  "typography": {
+    "displayFontFamily": "Fraunces",
+    "textFontFamily": "DM Sans",
+    "scale": {
+      "sm": 12,
+      "base": 14,
+      "lg": 16,
+      "xl": 20,
+      "2xl": 24
+    }
+  },
+  "spacing": {
+    "rule": "Generous vertical breathing room. Cards should never be flush to the screen edge; always use at least lg margin. Soft padding inside cards and around typography to feel airy and non-clinical.",
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32,
+    "3xl": 48
+  },
+  "radius_tokens": {
+    "sm": 6,
+    "md": 12,
+    "lg": 20,
+    "pill": 999
+  },
+  "shadow_tier": "0",
+  "navigation": "bottom_tabs",
+  "icon_set": "Feather",
+  "glassmorphism": {
+    "enabled": "false",
+    "do's": [
+      "Use solid surfaceSecondary or brandTertiary tints instead of glass to maintain the matte, organic, grounded feel of the hand-drawn/editorial aesthetic."
+    ],
+    "dont's": [
+      "Do not use heavy blur or glassmorphism. It clashes with the natural, non-digital sanctuary vibe."
+    ]
+  },
+  "platform_libraries": {
+    "glass": {
+      "ios": "expo-blur",
+      "android": "expo-blur",
+      "low_end_android_fallback": "solid surfaceSecondary"
+    },
+    "image": "expo-image",
+    "blur": "expo-blur",
+    "bottom_sheet": "@gorhom/bottom-sheet",
+    "animation": "react-native-reanimated",
+    "gesture": "react-native-gesture-handler"
+  },
+  "screens": [
+    {
+      "name": "Auth & Welcome",
+      "purpose": "A calming entry into the app introducing Pritha's ethos before asking for credentials.",
+      "states": {
+        "loading": "Centered soft spinner with 'Preparing your sanctuary...' text",
+        "empty": "N/A",
+        "error": "Soft error toast with retry button."
+      },
+      "layout": "Hero image at the top with a subtle bottom gradient fade into the surface color. Fraunces display title 'Welcome to Pritha'. Clear Google and Email login buttons with pill radii. Generous spacing below the image."
+    },
+    {
+      "name": "Onboarding",
+      "purpose": "Communicate the three pillars: Personalized Nutrition, Sustainable Habits, and Holistic Wellness.",
+      "states": {
+        "loading": "N/A",
+        "empty": "N/A",
+        "error": "N/A"
+      },
+      "layout": "Full-bleed imagery for each of the 3 steps. Apply a vertical linear gradient scrim (transparent to surfaceInverse) starting at 50% to ensure the white text placed at the bottom 30% is completely readable. A 'Next' FAB or sticky bottom button."
+    },
+    {
+      "name": "Home",
+      "purpose": "A daily wellness dashboard that feels supportive, offering quick actions and daily insights without overwhelming data.",
+      "states": {
+        "loading": "Skeleton loaders matching the rounded card shapes.",
+        "empty": "N/A",
+        "error": "Readable message 'Could not load your daily insights.' with a Retry CTA."
+      },
+      "layout": "Header: Warm greeting ('Good morning, Maya'). Section 1: Mood Check-in row (Great, Good, Okay, Low, Exhausted) in a horizontal scroll or wrapped flex. Section 2: Large Insight/Quote card with the calm nature hero image background and text overlaid using a scrim. Section 3: Quick Actions (2-column grid of pill-shaped or soft-rounded cards for 'Request Diet Plan' and 'Book Consult'). Section 4: About Yogini card with her profile photo, short bio, and subtle terracotta accent."
+    },
+    {
+      "name": "Diet Plan Request",
+      "purpose": "A seamless, stress-free form to request a custom plan, highlighting the student vs regular pricing tiers.",
+      "states": {
+        "loading": "Spinner over disabled form.",
+        "empty": "N/A",
+        "error": "Validation errors below inputs in error color."
+      },
+      "layout": "Single column form. Labels above inputs. Clear, large toggle or segmented control for 'Student (₹250)' vs 'Regular (₹500)'. Sticky primary CTA 'Submit Request' at the bottom over scrolling content inside KeyboardAvoidingView."
+    },
+    {
+      "name": "Consultation",
+      "purpose": "Allow users to book a 1:1 video session with Yogini for ₹750.",
+      "states": {
+        "loading": "Loading available slots...",
+        "empty": "Illustration of a calendar with 'No slots available right now.'",
+        "error": "Failed to load schedule."
+      },
+      "layout": "Editorial header explaining the value of the 1:1 session. A clean date picker followed by a grid of available time slots (chips). A sticky bottom CTA 'Book Session • ₹750'."
+    },
+    {
+      "name": "Wellness Journal",
+      "purpose": "A private, safe space to log daily moods and thoughts without judgment.",
+      "states": {
+        "loading": "Loading entries...",
+        "empty": "Notebook illustration with 'Your journal is empty. Take a deep breath and write your first entry.'",
+        "error": "Could not load journal."
+      },
+      "layout": "List view of past entries. Each card shows the date, the selected mood (with a subtle color tint), and a snippet of the text. A prominent FAB (floating action button) in brandPrimary for 'New Entry'."
+    },
+    {
+      "name": "Admin Dashboard",
+      "purpose": "Yogini's control center for managing requests, consultations, users, and payments.",
+      "states": {
+        "loading": "Spinner",
+        "empty": "Icon + 'No pending requests.'",
+        "error": "Failed to load dashboard."
+      },
+      "layout": "Utilitarian but clean. Top summary metrics (Active Plans, Upcoming Consults). List of pending diet plan requests with quick 'Approve/Deny' actions. Easy navigation between Diet Requests, Consultations, and Payments."
+    }
+  ],
+  "images": {
+    "home_hero": {
+      "url": "https://images.unsplash.com/photo-1612795023439-592dd43f47fe?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODd8MHwxfHNlYXJjaHwxfHxjYWxtJTIwbmF0dXJlJTIwc2FnZSUyMGdyZWVuJTIwYWVzdGhldGljfGVufDB8fHx8MTc4MTIzNjU4NHww&ixlib=rb-4.1.0&q=85",
+      "alt": "Calm nature leaves in sage green tones"
+    },
+    "yogini_profile": {
+      "url": "https://images.unsplash.com/photo-1541657333963-d31b55f58de1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHx5b3VuZyUyMGluZGlhbiUyMHdvbWFuJTIwY2FsbSUyMHNtaWxpbmclMjBwcm9mZXNzaW9uYWx8ZW58MHx8fHwxNzgxMjM2NTg1fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Yogini Kurtadkar smiling calmly"
+    },
+    "onboarding_1": {
+      "url": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTZ8MHwxfHNlYXJjaHwxfHxmcmVzaCUyMGhlYWx0aHklMjBmb29kJTIwc2FsYWR8ZW58MHx8fHwxNzgxMjM2NTk3fDA&ixlib=rb-4.1.0&q=85",
+      "alt": "Fresh healthy food and sustainable nutrition"
+    },
+    "onboarding_2": {
+      "url": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2OTV8MHwxfHNlYXJjaHwxfHx5b2dhJTIwbWVkaXRhdGlvbiUyMHdvbWFufGVufDB8fHx8MTc4MTIzNjU5Nnww&ixlib=rb-4.1.0&q=85",
+      "alt": "Woman practicing yoga and holistic wellness"
+    },
+    "onboarding_3": {
+      "url": "https://images.unsplash.com/photo-1612367980327-7454a7276aa7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNTl8MHwxfHNlYXJjaHwxfHxvcGVuJTIwbm90ZWJvb2slMjBqb3VybmFsfGVufDB8fHx8MTc4MTIzNjU5Nnww&ixlib=rb-4.1.0&q=85",
+      "alt": "Open notebook representing wellness journaling"
+    }
+  },
+  "haptics": {
+    "primary_button_press": "impactLight",
+    "tab_switch": "selection",
+    "mood_selection": "impactMedium",
+    "form_submit_success": "notificationSuccess",
+    "form_submit_error": "notificationError",
+    "booking_confirm": "notificationSuccess"
+  },
+  "instructions_to_main_agent": [
+    "Strictly follow the defined palette: sage green, soft cream, muted terracotta. Avoid all blues and purples.",
+    "Use Fraunces (weight 400/500) for large display headings to give a premium editorial feel, and DM Sans for clean, readable body text.",
+    "Implement a bottom tab navigator with 4 tabs: Home, Journal, Consult, Profile. The Admin features should live in a completely separate stack navigator accessible only to Yogini's account.",
+    "Whenever placing text over an image (like the Home Hero or Onboarding screens), you MUST implement the gradient scrim (transparent to surfaceInverse vertical fade starting at 50% opacity). Text on images goes in the bottom 30-40%.",
+    "Cards should use surfaceSecondary (#F0EDE6) with zero drop shadow (shadow_tier: 0) to maintain the flat, grounded, hand-drawn/editorial aesthetic. Rely on generous xl spacing and border radius instead of elevation.",
+    "Ensure prices use the Indian Rupee symbol (₹). Student Pricing = ₹250, Regular = ₹500, Consultation = ₹750.",
+    "Include an AI Wellness Companion accessible via a FAB on the Home or Journal screens.",
+    "Implement the mood tracker as a tactile row of choices (Great, Good, Okay, Low, Exhausted) on both the Home screen check-in and the Journal New Entry flow."
+  ]
+}
