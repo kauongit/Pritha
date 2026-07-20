@@ -13,3 +13,10 @@ frontend/.expo/
 
 # Cache
 *.pyc
+
+node_modules/
+frontend/node_modules/
+backend/.venv/
+__pycache__/
+.expo/
+.env
