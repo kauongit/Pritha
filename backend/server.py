@@ -9,8 +9,7 @@ from typing import List, Optional, Literal
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import os, uuid, jwt, time, hmac, hashlib, logging, asyncio
-
-#from emergentintegrations.llm.chat import LlmChat, UserMessage, TextDelta, StreamDone
+import anthropic
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -21,7 +20,9 @@ JWT_SECRET = os.environ['JWT_SECRET']
 JWT_ALGO = os.environ.get('JWT_ALGO', 'HS256')
 ADMIN_EMAIL = os.environ['ADMIN_EMAIL']
 ADMIN_PASSWORD = os.environ['ADMIN_PASSWORD']
-EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY', '')
+ANTHROPIC_API_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
+ANTHROPIC_MODEL = os.environ.get('ANTHROPIC_MODEL', 'claude-sonnet-4-20250514')
+ANTHROPIC_TIMEOUT_SECONDS = float(os.environ.get('ANTHROPIC_TIMEOUT_SECONDS', '30'))
 RAZORPAY_MOCK_MODE = os.environ.get('RAZORPAY_MOCK_MODE', 'true').lower() == 'true'
 
 client = AsyncIOMotorClient(MONGO_URL)
@@ -100,8 +101,8 @@ class PayVerifyReq(BaseModel):
     razorpay_signature: str = ""
 
 class ChatReq(BaseModel):
-    message: str
-    session_id: str
+    message: str = Field(min_length=1, max_length=2000)
+    session_id: str = Field(min_length=1, max_length=100)
 
 class UploadPlanReq(BaseModel):
     pdf_base64: str  # base64 string of the PDF
@@ -347,6 +348,65 @@ async def admin_payments(_: dict = Depends(require_admin)):
     return await db.payments.find({}, {"_id": 0}).sort("created_at", -1).to_list(500)
 
 # ----- AI Wellness Companion -----
+SYSTEM_PRIMER = (
+    "You are Pritha, a gentle and calm wellness companion in Yogini Kudtarkar's "
+    "nutrition sanctuary. Speak warmly, briefly, and without judgment. Offer grounded, "
+    "sustainable, plant-forward wellbeing ideas and mindful-eating support. Never diagnose, "
+    "prescribe medication, replace a qualified clinician, or shame the user. For medical "
+    "questions, encourage a consultation with Yogini or an appropriate healthcare professional. "
+    "For urgent or emergency concerns, state that you cannot provide emergency help and encourage "
+    "the user to contact local emergency services or a trusted healthcare professional immediately. "
+    "Keep replies to two to four short sentences and use soft, nature-inspired language."
+)
+AI_MAX_TOKENS = 450
+
+async def stream_ai_reply(message: str, user_id: str, session_id: str):
+    client = anthropic.AsyncAnthropic(
+        api_key=ANTHROPIC_API_KEY,
+        timeout=ANTHROPIC_TIMEOUT_SECONDS,
+        max_retries=0,
+    )
+    logger.info("ai.chat.started user_id=%s session_id=%s", user_id, session_id)
+    try:
+        async with client.messages.stream(
+            model=ANTHROPIC_MODEL,
+            max_tokens=AI_MAX_TOKENS,
+            system=SYSTEM_PRIMER,
+            messages=[{"role": "user", "content": message}],
+        ) as stream:
+            async for text in stream.text_stream:
+                yield text
+        logger.info("ai.chat.completed user_id=%s session_id=%s", user_id, session_id)
+    except anthropic.RateLimitError:
+        logger.warning("ai.chat.rate_limited user_id=%s session_id=%s", user_id, session_id)
+        yield "The sanctuary is a little busy right now. Please try again in a moment."
+    except (anthropic.APITimeoutError, anthropic.APIConnectionError):
+        logger.warning("ai.chat.unavailable user_id=%s session_id=%s", user_id, session_id)
+        yield "I'm unable to connect right now. Please try again gently in a moment."
+    except anthropic.APIStatusError as exc:
+        logger.error(
+            "ai.chat.provider_error user_id=%s session_id=%s status=%s",
+            user_id,
+            session_id,
+            exc.status_code,
+        )
+        yield "I'm resting for a moment. Please try again shortly."
+    except Exception:
+        logger.exception("ai.chat.unexpected_error user_id=%s session_id=%s", user_id, session_id)
+        yield "I'm resting for a moment. Please try again shortly."
+    finally:
+        await client.close()
+
+@api.post("/ai/chat")
+async def ai_chat(req: ChatReq, user: dict = Depends(get_user)):
+    if not ANTHROPIC_API_KEY:
+        raise HTTPException(503, "AI Companion is not configured")
+    return StreamingResponse(
+        stream_ai_reply(req.message, user["id"], req.session_id),
+        media_type="text/plain",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
 # SYSTEM_PRIMER = (
 #     "You are Pritha — a gentle, calm AI wellness companion in Yogini Kurtadkar's nutrition sanctuary. "
 #     "You speak warmly, briefly, and never push extreme diets or calorie obsession. "
