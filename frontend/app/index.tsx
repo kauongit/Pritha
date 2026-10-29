@@ -56,7 +56,7 @@ const PRINCIPLES = [
     text: "Your routine, food preferences, budget, and goals matter more than a trend.",
   },
   {
-    icon: "sprout" as const,
+    icon: "leaf" as const,
     title: "Keep it sustainable",
     text: "Small, repeatable habits can feel kinder than chasing perfection.",
   },
@@ -72,7 +72,7 @@ export default function Home() {
   const { user } = useAuth();
   const { width } = useWindowDimensions();
   const wide = width >= 900;
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef<ScrollView | null>(null);
   const [sectionY, setSectionY] = useState({ services: 0, about: 0, approach: 0 });
 
   const go = (path: string) => router.push(path as any);
